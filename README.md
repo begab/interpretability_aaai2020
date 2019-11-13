@@ -13,18 +13,19 @@ This methodology is illustrated by two techniques using the ConceptNet knowledge
 The first approach assigns a commonsense concept label to the individual dimensions of the embedding space. The second approach uses a metric, derived by spreading activation, to quantify the coherence of coordinates along the individual axes. We also provide results on the relationship between the two approaches.
 The results show, for example, that in the individual dimensions of sparse word embeddings, words having high coefficients are more semantically related in terms of path lengths in the knowledge base than the ones having zero coefficients.
 
-# Steps for reproducibility
+## Steps to reproduce our experiments
 
 
 
-## Obtaining dense embeddings
+### Obtaining dense embeddings
 
 The first step is to obtain dense embeddings for later analysis. You can either train either provide your in-house trained embeddings or use any of the pre-trained ones. We did the latter in our experiments in the paper, i.e. we analysed the pre-trained [Glove](https://nlp.stanford.edu/projects/glove/) embeddings. More precisely, we our paper reports results based on the 300 dimensional [Glove-6B](http://nlp.stanford.edu/data/glove.6B.zip) vectors that were trained over 6 billion tokens originating from the corpora of Wikipedia 2014 and Gigaword 5.
 
-## Deriving sparse representations based on the dense embeddings
+### Deriving sparse representations based on the dense embeddings
 
 We relied on three different approaches for deriving sparse word representations in the paper. The approaches are dubbed as _DLSC_, _k-means_ and _GMPO_. For more details, please refer to the paper.
 
 The sparse word representations that we computed can be accessed from [the following folder](http://rgai.inf.u-szeged.hu/~berend/interpretability/sparse_glove_extended/). Note that we created further embeddings besides the ones referenced in our article.
 
-The file names have the following structure `glove{50,100,200,300}d_l_0.[1-5]_{DLSC,kmeans,GMPO}_top400000.emb.gz`.
+The file names have the following structure  
+`glove{50,100,200,300}d_l_0.[1-5]_{DLSC,kmeans,GMPO}_top400000.emb.gz`.
