@@ -1,0 +1,18 @@
+{
+	"name": "exploreGlove",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "date && node --max_old_space_size=14000 --stack-size=14000 query_conceptnet56_corrected.js && date"
+	},
+	"dependencies": {
+		"mongodb": "3.1.8",
+		"async": "2.6.1",
+		"assert-plus": "1.0.0"
+	},
+	"author": "Dimitris",
+	"description": "Exploring Glove and the Microsoft graph",
+	"devDependencies": {
+		"jshint": "^2.9.6"
+	}
+}
