@@ -104,3 +104,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# output
+results/
+data/
+*.png
+*.pdf
