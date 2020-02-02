@@ -23,7 +23,7 @@ We relied on three different approaches for deriving sparse word representations
 The sparse word representations that we computed can be accessed from [the following folder](http://www.inf.u-szeged.hu/~berendg/sparse_glove_extended/). Note that we created further embeddings besides the ones referenced in our article.
 
 The file names have the following structure  
-`glove{50,100,200,300}d_l_0.[1-5]_{DLSC,kmeans,GMPO}_top400000.emb.gz`.
+`glove300d_l_0.[1-5]_{DLSC,kmeans,GMPO}_top400000.emb.gz`.
 
 ## Preprocess sparse embedding and knowledge base
 To preprocess a gzipped sparse embedding:
