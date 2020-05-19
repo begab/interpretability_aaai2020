@@ -26,6 +26,7 @@ The file names have the following structure
 `glove300d_l_0.[1-5]_{DLSC,kmeans,GMPO}_top400000.emb.gz`.
 
 One can determine new sparse word representations by invoking the below command as well:
+
 	cd src
 	python sparse_coding/sparse_coding.py <dense_embeddings_location> <sparse_output_file> <output_dimensions> <regularization_coefficient> <approach>
 
