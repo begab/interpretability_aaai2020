@@ -25,18 +25,22 @@ The sparse word representations that we computed can be accessed from [the follo
 The file names have the following structure  
 `glove300d_l_0.[1-5]_{DLSC,kmeans,GMPO}_top400000.emb.gz`.
 
+One can determine new sparse word representations by invoking the below command as well:
+	cd src
+	python sparse_coding/sparse_coding.py <dense_embeddings_location> <sparse_output_file> <output_dimensions> <regularization_coefficient> <approach>
+
 ## Preprocess sparse embedding and knowledge base
 To preprocess a gzipped sparse embedding:
 	
 	cd src
-	python preprocess/preprocess_sparse_embedding --embedding <path_to_gzipped_embedding>
+	python preprocess/preprocess_sparse_embedding.py --embedding <path_to_gzipped_embedding>
 
 This will result in an npz format embedding matrix and word index files in the `data` directory.
 	
 To preprocess a knowledge base (and its assertions) download the [assertion][1] files of the knowledge bases, then run:
 
 	cd src
-	python preprocess/preprocess_cnet --kb <path_to_json_assertion>
+	python preprocess/preprocess_cnet.py --kb <path_to_json_assertion>
 	
 This will result in a pickled concept index files and word-concept dictionaries in the `data` directory.
 
