@@ -14,7 +14,10 @@ from scipy.sparse import csc_matrix, save_npz, load_npz
 from sklearn.cluster import KMeans
 
 def load_data(filename, filter_words=None, max_words=-1):
-    if filename.endswith('.gz'):
+    if filename.endswith('.npy'):
+        i2w = {i:w.strip() for i,w in enumerate(open(filename.replace('.wv.npy', '.vocab')))}
+        return np.load(filename), {w:i for i,w in i2w.items()}, i2w
+    elif filename.endswith('.gz'):
         lines = gzip.open(filename, 'rt')
     elif filename.endswith('.zip'):
         myzip = ZipFile(filename) # we assume only one embedding file to be included in a zip file
@@ -117,7 +120,10 @@ def main():
     l_param = {x:param[x] for x in ['L','lambda1','lambda2','mode','pos','ols','numThreads','length_path','verbose'] if x in param}
     l_param['pos'] = args.alphas_nonneg
     alphas = spams.lasso(emb.T, D=D, **l_param)
-    write_embeddings(i2w, alphas, args.sparse_output_file)
+    if args.sparse_output_file.endswith('.npz'):
+        save_npz(args.sparse_output_file, alphas.T)
+    else:
+        write_embeddings(i2w, alphas, args.sparse_output_file)
 
 if __name__ == "__main__":
     main()
