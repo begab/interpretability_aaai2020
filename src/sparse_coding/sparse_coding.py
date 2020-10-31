@@ -1,6 +1,5 @@
 import re
 import sys
-import json
 import gzip
 import spams
 import argparse
@@ -13,7 +12,7 @@ from scipy.sparse import csc_matrix, save_npz, load_npz
 #import faiss # one could optionally use faiss for fast and potentially GPU-accelerated clustering
 from sklearn.cluster import KMeans
 
-def load_data(filename, filter_words=None, max_words=-1):
+def load_data(filename, max_words=-1, filter_words=None):
     if filename.endswith('.gz'):
         lines = gzip.open(filename, 'rt')
     elif filename.endswith('.zip'):
@@ -88,10 +87,16 @@ def main():
     alphas_nonneg_parser.add_argument('--alphas_nonneg', dest='alphas_nonneg', action='store_true')
     alphas_nonneg_parser.add_argument('--alphas_any', dest='alphas_nonneg', action='store_false')
     parser.set_defaults(alphas_nonneg=True)
+    norm_parser = parser.add_mutually_exclusive_group(required=False)
+    norm_parser.add_argument('--norm', dest='normalize', action='store_true')
+    norm_parser.add_argument('--no_norm', dest='normalize', action='store_false')
+    parser.set_defaults(normalize=False)
 
     args = parser.parse_args()
 
-    emb, _, i2w = load_data(args.dense_embeddings_location)
+    emb, _, i2w = load_data(args.dense_embeddings_location, args.top_words)
+    if args.normalize:
+        emb = length_normalize_rows(emb)
     dictionary_mode = sys.argv[3]  # DL/GS/kmeans
     top_words = emb.shape[0]  # the default is to use all words, a viable alternative to use top 50K instead for instance
     if top_words > args.top_words > 0:
