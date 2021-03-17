@@ -12,7 +12,7 @@ Python 3.6
 ## Install
 Install the latest code from GitHub.
 
-    git clone https://github.com/begab/interpretability_aaai2020.git
+    git clone git@github.com:begab/interpretability_aaai2020.git
     cd interpretability_aaai2020
     pip install -r requirements.txt
 
