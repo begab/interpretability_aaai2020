@@ -87,20 +87,34 @@ def main():
     parser.add_argument('approach', help='one of DLSC/kmeans/GMPO', choices=['DLSC', 'kmeans', 'GMPO'])
     parser.add_argument('--top-words', help='how many dense embeddings to utilize [default is to use all of them]', type=int, default=-1)
 
+    zca_parser =  parser.add_mutually_exclusive_group(required=False)
+    zca_parser.add_argument('--zca', dest='zca', action='store_true', help="Use ZCA-whitening as preprocessing over the input")
+    zca_parser.add_argument('--no-zca', dest='zca', action='store_false')
+    parser.set_defaults(zca=False) # whether decorrelation to be performed
+
     alphas_nonneg_parser = parser.add_mutually_exclusive_group(required=False)
-    alphas_nonneg_parser.add_argument('--alphas_nonneg', dest='alphas_nonneg', action='store_true')
+    alphas_nonneg_parser.add_argument('--alphas_nonneg', dest='alphas_nonneg', action='store_true', help="Enforce non-negativity over the coefficients")
     alphas_nonneg_parser.add_argument('--alphas_any', dest='alphas_nonneg', action='store_false')
     parser.set_defaults(alphas_nonneg=True)
+
     norm_parser = parser.add_mutually_exclusive_group(required=False)
-    norm_parser.add_argument('--norm', dest='normalize', action='store_true')
+    norm_parser.add_argument('--norm', dest='normalize', action='store_true', help="Make inputs unit length")
     norm_parser.add_argument('--no_norm', dest='normalize', action='store_false')
     parser.set_defaults(normalize=False)
 
     args = parser.parse_args()
 
     emb, _, i2w = load_data(args.dense_embeddings_location, args.top_words)
+    if args.zca:
+        mu = np.mean(emb, axis=0)
+        emb -= mu
+        U, sigmas, _ = np.linalg.svd(np.cov(emb.T))
+        zca_trafo = U @ np.diag(1/np.sqrt(sigmas + 1e-7)) @ U.T
+        emb = emb @ zca_trafo
+
     if args.normalize:
         emb = length_normalize_rows(emb)
+
     dictionary_mode = sys.argv[3]  # DL/GS/kmeans
     top_words = emb.shape[0]  # the default is to use all words, a viable alternative to use top 50K instead for instance
     if top_words > args.top_words > 0:
