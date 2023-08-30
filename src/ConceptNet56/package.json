@@ -6,7 +6,7 @@
 		"start": "date && node --max_old_space_size=14000 --stack-size=14000 query_conceptnet56_corrected.js && date"
 	},
 	"dependencies": {
-		"mongodb": "3.6.1",
+		"mongodb": "3.6.10",
 		"async": "2.6.4",
 		"assert-plus": "1.0.0"
 	},
